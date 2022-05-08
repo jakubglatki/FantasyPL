@@ -9,7 +9,7 @@ def get_players_with_most_points():
     players_list = pd.DataFrame()
     players_copy = players.sort_values('total_points', ascending=False)
     index = 0
-    while index < 11:
+    while index < 15:
         player_to_add = pd.DataFrame(players_copy.iloc[[index]])
         players_list = pd.concat([players_list, player_to_add])
         index += 1
