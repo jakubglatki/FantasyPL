@@ -17,4 +17,5 @@ if __name__ == '__main__':
     players = basic_method_ai.get_players_with_most_points()
     for index, player in players.iterrows():
         print(utilities.get_player_parameter(player['id'], players, 'web_name'))
+    basic_method_ai.choose_team()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
