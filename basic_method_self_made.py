@@ -4,14 +4,6 @@ import pandas as pd
 
 players = utilities.import_data('players_raw_17_18.csv')
 
-team_dictionary, team_limit_dictionary = utilities.map_teams()
-position_dictionary = utilities.map_positions()
-
-players_df = utilities.get_players_data_frame()
-players_df = utilities.get_players_data_frame_with_understandable_values(players_df, team_dictionary,
-                                                                         position_dictionary)
-most_points, cheapest_players, value_players = utilities.get_specific_data_frames(players_df)
-
 
 def get_players_with_most_points():
     players_list = pd.DataFrame()
@@ -24,7 +16,7 @@ def get_players_with_most_points():
     return players_list
 
 
-def choose_players(chosen_team, row, position_limit_dictionary, squad, budget, cheap_limit_dictionary=None):
+def choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, cheap_limit_dictionary=None):
     if cheap_limit_dictionary is None:
         cheap_limit_dictionary = {"GKP": 1, "DEF": 1, "MID": 1, "FWD": 1}
     chosen_team.append(row.player_name)
@@ -36,9 +28,12 @@ def choose_players(chosen_team, row, position_limit_dictionary, squad, budget, c
     return budget
 
 
-def choose_team(most_points=basic_method_self_made.most_points,
-                cheapest_players=basic_method_self_made.cheapest_players,
-                value_players=basic_method_self_made.value_players):
+def choose_team(most_points,
+                cheapest_players,
+                value_players):
+
+    team_dictionary, team_limit_dictionary = utilities.map_teams()
+
     budget = 1000
     chosen_team = []
     squad = []
@@ -54,27 +49,27 @@ def choose_team(most_points=basic_method_self_made.most_points,
 
     for idx, row in cheapest_players.iterrows():
         if row.position == "GKP":
-            budget = choose_players(chosen_team, row, position_limit_dictionary, squad, budget)
+            budget = choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget)
             break
 
     for idx, row in cheapest_players.iterrows():
         if len(chosen_team) < bottom_performer_limit and \
                 cheap_limit_dictionary[row.position] != 0 and team_limit_dictionary[row.team] != 0:
-            budget = choose_players(chosen_team, row, position_limit_dictionary, squad, budget, cheap_limit_dictionary)
+            budget = choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, cheap_limit_dictionary)
         elif len(chosen_team) == bottom_performer_limit:
             break
 
     for idx2, row2 in most_points.iterrows():
         if (budget - len(chosen_team) * 60 >= row2.now_cost or len(chosen_team) <= 7) and \
                 position_limit_dictionary[row2.position] != 0 and team_limit_dictionary[row2.team] != 0:
-            budget = choose_players(chosen_team, row2, position_limit_dictionary, squad, budget)
+            budget = choose_players(chosen_team, row2, position_limit_dictionary, team_limit_dictionary, squad, budget)
         elif len(chosen_team) == 15:
             break
 
     for idx3, row3 in value_players.iterrows():
         if row3.player_name not in chosen_team and budget >= row3.now_cost and \
                 position_limit_dictionary[row3.position] != 0 and team_limit_dictionary[row3.team] != 0:
-            budget = choose_players(chosen_team, row3, position_limit_dictionary, squad, budget)
+            budget = choose_players(chosen_team, row3, position_limit_dictionary,team_limit_dictionary, squad, budget)
         elif len(chosen_team) == 15:
             break
 

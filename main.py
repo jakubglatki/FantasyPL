@@ -2,6 +2,7 @@
 
 from AI.AIPrediction import AIPrediction
 from AI.DecisionTree import DecisionTree
+from AI.RandomForest import RandomForest
 from AI.XGBoost import XGBoost
 
 if __name__ == '__main__':
@@ -18,4 +19,9 @@ if __name__ == '__main__':
     tree = DecisionTree()
     predicted_points = tree.train_model()
     tree.choose_team_with_predicted_points(predicted_points)
+
+    randomForest = RandomForest()
+    predicted_points = randomForest.train_model()
+    randomForest.choose_team_with_predicted_points(predicted_points)
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
