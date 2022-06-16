@@ -1,6 +1,7 @@
 # This is a sample Python script.
 
 from AI.AIPrediction import AIPrediction
+from AI.DecisionTree import DecisionTree
 from AI.XGBoost import XGBoost
 
 if __name__ == '__main__':
@@ -11,6 +12,10 @@ if __name__ == '__main__':
     #basic_method_self_made.choose_team()
     ai = AIPrediction()
     xgboost = XGBoost()
-    predicted_points = xgboost.train_model_XGBoost()
+    predicted_points = xgboost.train_model()
     xgboost.choose_team_with_predicted_points(predicted_points)
+
+    tree = DecisionTree()
+    predicted_points = tree.train_model()
+    tree.choose_team_with_predicted_points(predicted_points)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

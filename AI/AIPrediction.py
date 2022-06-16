@@ -26,20 +26,23 @@ class AIPrediction:
     test_size = 0.2
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=seed)
 
+    def train_model(self):
+        pass
 
     def calculate_RMSE(self, model):
-        y_pred_test = model.predict(self.X_test)
-        y_pred_train = model.predict(self.X_train)
+        test_data = self.X_test.copy()
+        train_data = self.X_train.copy()
+        y_pred_test = model.predict(test_data)
+        y_pred_train = model.predict(train_data)
         mse_test = mean_squared_error(self.y_test, y_pred_test)
         mse_train = mean_squared_error(self.y_train, y_pred_train)
         print("RMSE_Test: " + str(math.sqrt(mse_test)))
         print("RMSE_Train: " + str(math.sqrt(mse_train)))
 
     def choose_team_with_predicted_points(self, all_data_predicted):
-        self.X['total_points'] = all_data_predicted.tolist()
-        players_predicted_df = utilities.get_players_data_frame_with_understandable_values(self.X, self.team_dictionary,
+        data_with_predicted_values = self.X.copy()
+        data_with_predicted_values['total_points'] = all_data_predicted.tolist()
+        players_predicted_df = utilities.get_players_data_frame_with_understandable_values(data_with_predicted_values, self.team_dictionary,
                                                                                            self.position_dictionary)
         most_points, cheapest_players, value_players = utilities.get_specific_data_frames(players_predicted_df)
         basic_method_self_made.choose_team(most_points, cheapest_players, value_players)
-
-

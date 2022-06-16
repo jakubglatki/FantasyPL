@@ -5,7 +5,7 @@ from AI.AIPrediction import AIPrediction
 
 class XGBoost(AIPrediction):
 
-    def train_model_XGBoost(self):
+    def train_model(self):
         # model = XGBRegressor().fit(X, y)
         # explainer = shap.Explainer(model)
         # shap_values = explainer(X)
