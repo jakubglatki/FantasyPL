@@ -30,13 +30,19 @@ class AIPrediction:
     X_normalized.iloc[:, 0:-1] = X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
     X_train_normalized = X_train.drop(labels=['team_code', 'element_type'], axis=1).copy()
     X_train_normalized.iloc[:, 0:-1] = X_train_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
+    X_test_normalized = X_test.drop(labels=['team_code', 'element_type'], axis=1).copy()
+    X_test_normalized.iloc[:, 0:-1] = X_test_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
 
     def train_model(self):
         pass
 
-    def calculate_RMSE(self, model):
-        test_data = self.X_test.copy()
-        train_data = self.X_train.copy()
+    def calculate_RMSE(self, model, is_normalized):
+        if is_normalized:
+            test_data = self.X_test_normalized.copy()
+            train_data = self.X_train_normalized.copy()
+        else:
+            test_data = self.X_test.copy()
+            train_data = self.X_train.copy()
         y_pred_test = model.predict(test_data)
         y_pred_train = model.predict(train_data)
         mse_test = mean_squared_error(self.y_test, y_pred_test)

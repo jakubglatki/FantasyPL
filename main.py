@@ -30,10 +30,10 @@ if __name__ == '__main__':
     # knn = KNN()
     # predicted_points = knn.train_model()
     # knn.choose_team_with_predicted_points(predicted_points)
-    #
-    # linear_regression = LinearRegressionAI()
-    # predicted_points = linear_regression.train_model()
-    # linear_regression.choose_team_with_predicted_points(predicted_points)
+
+    linear_regression = LinearRegressionAI()
+    predicted_points = linear_regression.train_model()
+    linear_regression.choose_team_with_predicted_points(predicted_points)
 
     tab_net = TabNet()
     predicted_points = tab_net.train_model()

@@ -12,7 +12,7 @@ class TabNet(AIPrediction):
         y_train_normalized = self.y_train.to_numpy().reshape(-1, 1)
         model = TabNetRegressor()
         model.fit(X_train_normalized, y_train_normalized)
-        #        self.calculate_RMSE(model)
+        # self.calculate_RMSE(model, True)
         all_data_predicted = model.predict(X_normalized)
         all_data_predicted = all_data_predicted.flatten()
         return all_data_predicted
