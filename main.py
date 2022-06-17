@@ -5,6 +5,7 @@ from AI.DecisionTree import DecisionTree
 from AI.KNN import KNN
 from AI.LinearRegressionAI import LinearRegressionAI
 from AI.RandomForest import RandomForest
+from AI.TabNet import TabNet
 from AI.XGBoost import XGBoost
 
 if __name__ == '__main__':
@@ -29,7 +30,11 @@ if __name__ == '__main__':
     # knn = KNN()
     # predicted_points = knn.train_model()
     # knn.choose_team_with_predicted_points(predicted_points)
+    #
+    # linear_regression = LinearRegressionAI()
+    # predicted_points = linear_regression.train_model()
+    # linear_regression.choose_team_with_predicted_points(predicted_points)
 
-    linear_regression = LinearRegressionAI()
-    predicted_points = linear_regression.train_model()
-    linear_regression.choose_team_with_predicted_points(predicted_points)
+    tab_net = TabNet()
+    predicted_points = tab_net.train_model()
+    tab_net.choose_team_with_predicted_points(predicted_points)
