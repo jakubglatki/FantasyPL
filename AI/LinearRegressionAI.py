@@ -1,12 +1,11 @@
-from sklearn.neighbors import KNeighborsClassifier
-
 from AI.AIPrediction import AIPrediction
+from sklearn.linear_model import LinearRegression
 
 
-class KNN(AIPrediction):
+class LinearRegressionAI(AIPrediction):
 
     def train_model(self):
-        model = KNeighborsClassifier(n_neighbors=10)
+        model = LinearRegression()
         model.fit(self.X_train_normalized, self.y_train)
 #        self.calculate_RMSE(model)
         all_data_predicted = model.predict(self.X_normalized)
