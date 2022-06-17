@@ -15,21 +15,21 @@ if __name__ == '__main__':
     #     print(utilities.get_player_parameter(player['id'], players, 'web_name'))
     #basic_method_self_made.choose_team()
     ai = AIPrediction()
-    # xgboost = XGBoost()
-    # predicted_points = xgboost.train_model()
-    # xgboost.choose_team_with_predicted_points(predicted_points)
-    #
-    # tree = DecisionTree()
-    # predicted_points = tree.train_model()
-    # tree.choose_team_with_predicted_points(predicted_points)
-    #
-    # randomForest = RandomForest()
-    # predicted_points = randomForest.train_model()
-    # randomForest.choose_team_with_predicted_points(predicted_points)
-    #
-    # knn = KNN()
-    # predicted_points = knn.train_model()
-    # knn.choose_team_with_predicted_points(predicted_points)
+    xgboost = XGBoost()
+    predicted_points = xgboost.train_model()
+    xgboost.choose_team_with_predicted_points(predicted_points)
+
+    tree = DecisionTree()
+    predicted_points = tree.train_model()
+    tree.choose_team_with_predicted_points(predicted_points)
+
+    randomForest = RandomForest()
+    predicted_points = randomForest.train_model()
+    randomForest.choose_team_with_predicted_points(predicted_points)
+
+    knn = KNN()
+    predicted_points = knn.train_model()
+    knn.choose_team_with_predicted_points(predicted_points)
 
     linear_regression = LinearRegressionAI()
     predicted_points = linear_regression.train_model()

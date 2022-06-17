@@ -12,6 +12,7 @@ class XGBoost(AIPrediction):
         #
         # shap.plots.bar(shap_values)
         # shap.plots.waterfall(shap_values[0])
+        print("XGBoost")
         model = XGBRegressor()
         model.fit(self.X_train, self.y_train)
         self.calculate_RMSE(model, False)

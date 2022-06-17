@@ -7,6 +7,7 @@ from AI.AIPrediction import AIPrediction
 class TabNet(AIPrediction):
 
     def train_model(self):
+        print("Tab net")
         X_train_normalized = self.X_train_normalized.to_numpy()
         X_normalized = self.X_normalized.to_numpy()
         y_train_normalized = self.y_train.to_numpy().reshape(-1, 1)

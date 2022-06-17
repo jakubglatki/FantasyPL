@@ -73,6 +73,7 @@ def choose_team(most_points,
         elif len(chosen_team) == 15:
             break
 
+    total_points = 0
     for row in squad:
         if row.position == 'GKP':
             gkp_squad.append(row.player_name)
@@ -82,11 +83,16 @@ def choose_team(most_points,
             mid_squad.append(row.player_name)
         elif row.position == 'FWD':
             fwd_squad.append(row.player_name)
+        for idx, rowPlayer in players.iterrows():
+            if rowPlayer['second_name'] in row.player_name:
+                total_points += rowPlayer['total_points']
 
     print("Remaining Budget: " + str((budget / 10)) + "M")
+    print("Total points: " + str(total_points))
     print(position_limit_dictionary)
 
     print('GKP: ' + str(gkp_squad))
     print('DEF: ' + str(def_squad))
     print('MID: ' + str(mid_squad))
     print('FWD: ' + str(fwd_squad))
+    print('\n\n\n\n\n')

@@ -6,6 +6,7 @@ from AI.AIPrediction import AIPrediction
 class RandomForest(AIPrediction):
 
     def train_model(self):
+        print("Random forest")
         model = RandomForestRegressor(n_estimators=1000, random_state=8)
         model.fit(self.X_train, self.y_train)
         self.calculate_RMSE(model, False)

@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 class LinearRegressionAI(AIPrediction):
 
     def train_model(self):
+        print("Linear regression")
         model = LinearRegression()
         model.fit(self.X_train_normalized, self.y_train)
         self.calculate_RMSE(model, True)
