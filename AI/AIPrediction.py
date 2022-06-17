@@ -26,6 +26,11 @@ class AIPrediction:
     test_size = 0.2
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=seed)
 
+    X_normalized = X.drop(labels=['team_code', 'element_type'], axis=1).copy()
+    X_normalized.iloc[:, 0:-1] = X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
+    X_train_normalized = X_train.drop(labels=['team_code', 'element_type'], axis=1).copy()
+    X_train_normalized.iloc[:, 0:-1] = X_train_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
+
     def train_model(self):
         pass
 
