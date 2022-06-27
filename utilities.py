@@ -1,13 +1,13 @@
 import pandas as pd
 
-players = pd.read_csv('data/players_raw_17_18.csv')
+players = pd.read_csv('data/players_17_18.csv')
 teams = pd.read_json('data/teams.json')['teams']
 positions = pd.read_json('data/element_types.json')['element_types']
 wanted_features = ['team_code', 'element_type', 'now_cost', 'total_points',
                    'minutes', 'value_season', 'goals_scored', 'assists', 'dreamteam_count', 'clean_sheets',
                    'goals_conceded', 'own_goals', 'penalties_saved', 'penalties_missed',
                    'yellow_cards', 'red_cards', 'saves', 'bonus', 'bps',
-                   'influence', 'creativity', 'threat', 'ict_index', 'selected_by_percent'
+                   'influence', 'creativity', 'threat', 'ict_index', 'selected_by_percent', 'first_name', 'second_name'
                    ]
 
 
@@ -61,27 +61,28 @@ def get_players_data_frame():
     return players_df
 
 
-def get_players_data_frame_with_understandable_values(players_df, team_dictionary, position_dictionary):
-    players_df = players_df.replace({'team_code': team_dictionary})
-    players_df = players_df.replace({'element_type': position_dictionary})
+def get_players_data_frame_with_understandable_values(players_df, team_dictionary, position_dictionary, season):
+    players_df = players_df.replace({'team_code_' + season: team_dictionary})
+    players_df = players_df.replace({'element_type_' + season: position_dictionary})
 
-    players_df = players_df.rename(columns={'team_code': 'team', 'element_type': 'position'})
+    players_df = players_df.rename(columns={'team_code_' + season: 'team', 'element_type_' + season: 'position'})
     players_names = players['first_name'].str.cat(players['second_name'], sep=' ')
     players_df['player_name'] = players_names
 
     return players_df
 
 
-def get_specific_data_frames(players_df):
-    players_wanted_features = ['player_name', 'team', 'position', 'total_points', 'now_cost']
+def get_specific_data_frames(players_df, season):
+    players_wanted_features = ['player_name', 'team', 'position', 'total_points_' + season, 'now_cost_' + season]
     most_points = players_df[players_wanted_features]
-    most_points = most_points.sort_values(by='total_points', ascending=False)
+    most_points = most_points.sort_values(by='total_points_' + season, ascending=False)
 
     cheapest_players = players_df[players_wanted_features]
-    cheapest_players = cheapest_players.sort_values(by='now_cost')
+    cheapest_players = cheapest_players.sort_values(by='now_cost_' + season)
 
     value_players = players_df[players_wanted_features]
-    value_players['value'] = value_players.apply(lambda row: row.total_points / row.now_cost, axis=1)
+    value_players['value'] = value_players.apply(lambda row: row['total_points_' + season] / row['now_cost_' + season],
+                                                 axis=1)
     value_players = value_players.sort_values(by='value', ascending=False)
 
     return most_points, cheapest_players, value_players

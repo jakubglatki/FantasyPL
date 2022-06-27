@@ -1,26 +1,14 @@
-import basic_method_self_made
 import utilities
 import pandas as pd
 
-players = utilities.import_data('players_raw_17_18.csv')
+players = utilities.import_data('players_17_18.csv')
 
 
-def get_players_with_most_points():
-    players_list = pd.DataFrame()
-    players_copy = players.sort_values('total_points', ascending=False)
-    index = 0
-    while index < 15:
-        player_to_add = pd.DataFrame(players_copy.iloc[[index]])
-        players_list = pd.concat([players_list, player_to_add])
-        index += 1
-    return players_list
-
-
-def choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, cheap_limit_dictionary=None):
+def choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, season, cheap_limit_dictionary=None):
     if cheap_limit_dictionary is None:
         cheap_limit_dictionary = {"GKP": 1, "DEF": 1, "MID": 1, "FWD": 1}
     chosen_team.append(row.player_name)
-    budget -= row.now_cost
+    budget -= row['now_cost_' + season]
     position_limit_dictionary[row.position] -= 1
     cheap_limit_dictionary[row.position] -= 1
     team_limit_dictionary[row.team] -= 1
@@ -30,7 +18,7 @@ def choose_players(chosen_team, row, position_limit_dictionary, team_limit_dicti
 
 def choose_team(most_points,
                 cheapest_players,
-                value_players):
+                value_players, season):
 
     team_dictionary, team_limit_dictionary = utilities.map_teams()
 
@@ -49,27 +37,27 @@ def choose_team(most_points,
 
     for idx, row in cheapest_players.iterrows():
         if row.position == "GKP":
-            budget = choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget)
+            budget = choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, season)
             break
 
     for idx, row in cheapest_players.iterrows():
         if len(chosen_team) < bottom_performer_limit and \
                 cheap_limit_dictionary[row.position] != 0 and team_limit_dictionary[row.team] != 0:
-            budget = choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, cheap_limit_dictionary)
+            budget = choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, season, cheap_limit_dictionary)
         elif len(chosen_team) == bottom_performer_limit:
             break
 
     for idx2, row2 in most_points.iterrows():
-        if (budget - len(chosen_team) * 60 >= row2.now_cost or len(chosen_team) <= 7) and \
+        if (budget - len(chosen_team) * 60 >= row2['now_cost_' + season] or len(chosen_team) <= 7) and \
                 position_limit_dictionary[row2.position] != 0 and team_limit_dictionary[row2.team] != 0:
-            budget = choose_players(chosen_team, row2, position_limit_dictionary, team_limit_dictionary, squad, budget)
+            budget = choose_players(chosen_team, row2, position_limit_dictionary, team_limit_dictionary, squad, budget, season)
         elif len(chosen_team) == 15:
             break
 
     for idx3, row3 in value_players.iterrows():
-        if row3.player_name not in chosen_team and budget >= row3.now_cost and \
+        if row3.player_name not in chosen_team and budget >= row3['now_cost_' + season] and \
                 position_limit_dictionary[row3.position] != 0 and team_limit_dictionary[row3.team] != 0:
-            budget = choose_players(chosen_team, row3, position_limit_dictionary,team_limit_dictionary, squad, budget)
+            budget = choose_players(chosen_team, row3, position_limit_dictionary,team_limit_dictionary, squad, budget, season)
         elif len(chosen_team) == 15:
             break
 
@@ -85,7 +73,7 @@ def choose_team(most_points,
             fwd_squad.append(row.player_name)
         for idx, rowPlayer in players.iterrows():
             if rowPlayer['second_name'] in row.player_name:
-                total_points += rowPlayer['total_points']
+                total_points += rowPlayer['total_points_' + season]
 
     print("Remaining Budget: " + str((budget / 10)) + "M")
     print("Total points: " + str(total_points))

@@ -8,7 +8,7 @@ from AI.AIPrediction import AIPrediction
 class DecisionTree(AIPrediction):
 
     def train_model(self):
-        print("Decision Tree")
+        # print("Decision Tree")
         model = DecisionTreeClassifier(random_state=8)
         model.fit(self.X_train, self.y_train)
         self.calculate_RMSE(model, False)
