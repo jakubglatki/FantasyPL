@@ -3,6 +3,8 @@ import math
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+import itertools
+from matplotlib import pyplot as plt
 import shap
 from shap.plots import *
 from xgboost import XGBRegressor, XGBClassifier
@@ -15,7 +17,7 @@ class AIPrediction:
     def __init__(self, season):
         self.season = season
         self.players_df = utilities.import_data('players_' + season + '.csv')
-        self.players_df = self.players_df.drop(labels=['first_name', 'second_name'], axis=1)
+        self.players_df = self.players_df.drop(labels=['first_name', 'second_name'], axis=1).copy()
         self.team_dictionary, self.team_limit_dictionary = utilities.map_teams()
         self.position_dictionary = utilities.map_positions()
 
@@ -26,15 +28,16 @@ class AIPrediction:
         test_size = 0.2
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size,
                                                                                 random_state=seed)
-        #
-        # self.X_normalized = self.X.drop(labels=[list(self.X.filter(regex='team_code')), list(self.X.filter(regex='element_type'))], axis=1).copy()
-        # self.X_normalized.iloc[:, 0:-1] = self.X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
-        # self.X_train_normalized = self.X_train.drop(labels=[list(self.X.filter(regex='team_code')), list(self.X.filter(regex='element_type'))], axis=1).copy()
-        # self.X_train_normalized.iloc[:, 0:-1] = self.X_train_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
-        #                                                                           axis=0)
-        # self.X_test_normalized = self.X_test.drop(labels=[list(self.X.filter(regex='team_code')), list(self.X.filter(regex='element_type'))], axis=1).copy()
-        # self.X_test_normalized.iloc[:, 0:-1] = self.X_test_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
-        #                                                                         axis=0)
+
+        regex_list = self.X.filter(regex='team_code')+self.X.filter(regex='element_type')
+        self.X_normalized = self.X.drop(labels=regex_list, axis=1).copy()
+        self.X_normalized.iloc[:, 0:-1] = self.X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
+        self.X_train_normalized = self.X_train.drop(labels=regex_list, axis=1).copy()
+        self.X_train_normalized.iloc[:, 0:-1] = self.X_train_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
+                                                                                  axis=0)
+        self.X_test_normalized = self.X_test.drop(labels=regex_list, axis=1).copy()
+        self.X_test_normalized.iloc[:, 0:-1] = self.X_test_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
+                                                                                axis=0)
 
     def train_model(self):
         pass
@@ -63,3 +66,16 @@ class AIPrediction:
         most_points, cheapest_players, value_players = utilities.get_specific_data_frames(players_predicted_df,
                                                                                           self.season)
         basic_method_self_made.choose_team(most_points, cheapest_players, value_players, self.season)
+
+    def make_plot(self, plot_name, model, masker):
+        if masker:
+            data = self.X_normalized.copy()
+            explainer = shap.Explainer(model, data)
+
+            #explainer = shap.KernelExplainer(model.predict, data)
+        else:
+            data = self.X.copy()
+            explainer = shap.Explainer(model)
+        shap_values = explainer(data)
+        shap.plots.waterfall(shap_values[0], show=False)
+        plt.savefig('data/plots/' + plot_name, bbox_inches='tight', dpi=300)

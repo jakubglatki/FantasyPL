@@ -10,5 +10,6 @@ class RandomForest(AIPrediction):
         model = RandomForestRegressor(n_estimators=1000, random_state=8)
         model.fit(self.X_train, self.y_train)
         self.calculate_RMSE(model, False)
+        #self.make_plot('RandomForest_'+self.season, model, False)
         all_data_predicted = model.predict(self.X)
         return all_data_predicted

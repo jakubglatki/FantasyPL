@@ -1,7 +1,6 @@
 import utilities
 import pandas as pd
 
-players = utilities.import_data('players_17_18.csv')
 
 
 def choose_players(chosen_team, row, position_limit_dictionary, team_limit_dictionary, squad, budget, season, cheap_limit_dictionary=None):
@@ -62,6 +61,8 @@ def choose_team(most_points,
             break
 
     total_points = 0
+
+    players = utilities.import_data('players_'+ season +'.csv')
     for row in squad:
         if row.position == 'GKP':
             gkp_squad.append(row.player_name)

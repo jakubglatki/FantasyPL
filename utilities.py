@@ -1,6 +1,5 @@
 import pandas as pd
 
-players = pd.read_csv('data/players_17_18.csv')
 teams = pd.read_json('data/teams.json')['teams']
 positions = pd.read_json('data/element_types.json')['element_types']
 wanted_features = ['team_code', 'element_type', 'now_cost', 'total_points',
@@ -55,13 +54,15 @@ def map_positions():
     return position_dictionary
 
 
-def get_players_data_frame():
+def get_players_data_frame(season):
+    players = pd.read_csv('data/players_'+ season +'.csv')
     players_df = players
     players_df = players_df[wanted_features]
     return players_df
 
 
 def get_players_data_frame_with_understandable_values(players_df, team_dictionary, position_dictionary, season):
+    players = pd.read_csv('data/players_'+ season + '.csv')
     players_df = players_df.replace({'team_code_' + season: team_dictionary})
     players_df = players_df.replace({'element_type_' + season: position_dictionary})
 
