@@ -1,5 +1,13 @@
 import pandas as pd
 
+from AI.AIPrediction import AIPrediction
+from AI.DecisionTree import DecisionTree
+from AI.KNN import KNN
+from AI.LinearRegressionAI import LinearRegressionAI
+from AI.RandomForest import RandomForest
+from AI.TabNet import TabNet
+from AI.XGBoost import XGBoost
+
 teams = pd.read_json('data/teams.json')['teams']
 positions = pd.read_json('data/element_types.json')['element_types']
 wanted_features = ['team_code', 'element_type', 'now_cost', 'total_points',
@@ -11,7 +19,7 @@ wanted_features = ['team_code', 'element_type', 'now_cost', 'total_points',
 
 
 def import_data(file_name):
-    return pd.read_csv(r'data/' + file_name)
+    return pd.read_csv(r'data/' + file_name, encoding="ISO-8859-1")
 
 
 # players id, data of given season, name of the column
@@ -55,14 +63,14 @@ def map_positions():
 
 
 def get_players_data_frame(season):
-    players = pd.read_csv('data/players_'+ season +'.csv')
+    players = pd.read_csv('data/players_' + season + '.csv')
     players_df = players
     players_df = players_df[wanted_features]
     return players_df
 
 
 def get_players_data_frame_with_understandable_values(players_df, team_dictionary, position_dictionary, season):
-    players = pd.read_csv('data/players_'+ season + '.csv')
+    players = pd.read_csv('data/' + season + '/players_gws.csv', encoding="ISO-8859-1")
     players_df = players_df.replace({'team_code_' + season: team_dictionary})
     players_df = players_df.replace({'element_type_' + season: position_dictionary})
 
@@ -87,3 +95,28 @@ def get_specific_data_frames(players_df, season):
     value_players = value_players.sort_values(by='value', ascending=False)
 
     return most_points, cheapest_players, value_players
+
+def check_all_algorithms(season):
+    xgboost = XGBoost(season)
+    predicted_points = xgboost.train_model()
+    xgboost.choose_team_with_predicted_points(predicted_points)
+
+    tree = DecisionTree(season)
+    predicted_points = tree.train_model()
+    tree.choose_team_with_predicted_points(predicted_points)
+
+    randomForest = RandomForest(season)
+    predicted_points = randomForest.train_model()
+    randomForest.choose_team_with_predicted_points(predicted_points)
+
+    knn = KNN(season)
+    predicted_points = knn.train_model()
+    knn.choose_team_with_predicted_points(predicted_points)
+
+    linear_regression = LinearRegressionAI(season)
+    predicted_points = linear_regression.train_model()
+    linear_regression.choose_team_with_predicted_points(predicted_points)
+
+    tab_net = TabNet(season)
+    predicted_points = tab_net.train_model()
+    tab_net.choose_team_with_predicted_points(predicted_points)

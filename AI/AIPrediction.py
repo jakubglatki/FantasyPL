@@ -1,5 +1,6 @@
 import math
 
+import pandas as pd
 import xgboost as xgb
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
@@ -16,7 +17,7 @@ import utilities
 class AIPrediction:
     def __init__(self, season):
         self.season = season
-        self.players_df = utilities.import_data('players_' + season + '.csv')
+        self.players_df = pd.read_csv('data/' + season + '/players_gws.csv', encoding="ISO-8859-1")
         self.players_df = self.players_df.drop(labels=['first_name', 'second_name'], axis=1).copy()
         self.team_dictionary, self.team_limit_dictionary = utilities.map_teams()
         self.position_dictionary = utilities.map_positions()
@@ -32,12 +33,18 @@ class AIPrediction:
         regex_list = self.X.filter(regex='team_code')+self.X.filter(regex='element_type')
         self.X_normalized = self.X.drop(labels=regex_list, axis=1).copy()
         self.X_normalized.iloc[:, 0:-1] = self.X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
+        self.X_normalized = self.X_normalized.fillna(0)
+
         self.X_train_normalized = self.X_train.drop(labels=regex_list, axis=1).copy()
         self.X_train_normalized.iloc[:, 0:-1] = self.X_train_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
                                                                                   axis=0)
+        self.X_train_normalized = self.X_train_normalized.fillna(0)
+
         self.X_test_normalized = self.X_test.drop(labels=regex_list, axis=1).copy()
         self.X_test_normalized.iloc[:, 0:-1] = self.X_test_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
                                                                                 axis=0)
+        self.X_test_normalized = self.X_test_normalized.fillna(0)
+
 
     def train_model(self):
         pass
