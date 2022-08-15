@@ -18,6 +18,7 @@ class AIPrediction:
     def __init__(self, season):
         self.season = season
         self.players_df = pd.read_csv('data/' + season + '/players_gws.csv', encoding="ISO-8859-1")
+        self.players_df = self.players_df.loc[~(self.players_df['total_points_' + season] == 0)]
         self.players_df = self.players_df.drop(labels=['first_name', 'second_name'], axis=1).copy()
         self.team_dictionary, self.team_limit_dictionary = utilities.map_teams()
         self.position_dictionary = utilities.map_positions()
@@ -30,21 +31,23 @@ class AIPrediction:
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size,
                                                                                 random_state=seed)
 
-        regex_list = self.X.filter(regex='team_code')+self.X.filter(regex='element_type')
+        regex_list = self.X.filter(regex='team_code') + self.X.filter(regex='element_type')
         self.X_normalized = self.X.drop(labels=regex_list, axis=1).copy()
-        self.X_normalized.iloc[:, 0:-1] = self.X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(), axis=0)
+        self.X_normalized.iloc[:, 0:-1] = self.X_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
+                                                                                axis=0)
         self.X_normalized = self.X_normalized.fillna(0)
 
         self.X_train_normalized = self.X_train.drop(labels=regex_list, axis=1).copy()
-        self.X_train_normalized.iloc[:, 0:-1] = self.X_train_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
-                                                                                  axis=0)
+        self.X_train_normalized.iloc[:, 0:-1] = self.X_train_normalized.iloc[:, 0:-1].apply(
+            lambda x: (x - x.mean()) / x.std(),
+            axis=0)
         self.X_train_normalized = self.X_train_normalized.fillna(0)
 
         self.X_test_normalized = self.X_test.drop(labels=regex_list, axis=1).copy()
-        self.X_test_normalized.iloc[:, 0:-1] = self.X_test_normalized.iloc[:, 0:-1].apply(lambda x: (x - x.mean()) / x.std(),
-                                                                                axis=0)
+        self.X_test_normalized.iloc[:, 0:-1] = self.X_test_normalized.iloc[:, 0:-1].apply(
+            lambda x: (x - x.mean()) / x.std(),
+            axis=0)
         self.X_test_normalized = self.X_test_normalized.fillna(0)
-
 
     def train_model(self):
         pass
@@ -53,15 +56,20 @@ class AIPrediction:
         if is_normalized:
             test_data = self.X_test_normalized.copy()
             train_data = self.X_train_normalized.copy()
+            pred_data = self.X_normalized.copy()
         else:
             test_data = self.X_test.copy()
             train_data = self.X_train.copy()
+            pred_data = self.X.copy()
         y_pred_test = model.predict(test_data)
         y_pred_train = model.predict(train_data)
+        y_pred = model.predict(pred_data)
         mse_test = mean_squared_error(self.y_test, y_pred_test)
         mse_train = mean_squared_error(self.y_train, y_pred_train)
-        print("RMSE_Test: " + str(math.sqrt(mse_test)))
-        print("RMSE_Train: " + str(math.sqrt(mse_train)))
+        mse = mean_squared_error(self.y, y_pred)
+        # print("RMSE_Test: " + str(math.sqrt(mse_test)))
+        # print("RMSE_Train: " + str(math.sqrt(mse_train)))
+        print("RMSE: " + str(math.sqrt(mse)))
 
     def choose_team_with_predicted_points(self, all_data_predicted):
         data_with_predicted_values = self.X.copy()
@@ -79,7 +87,7 @@ class AIPrediction:
             data = self.X_normalized.copy()
             explainer = shap.Explainer(model, data)
 
-            #explainer = shap.KernelExplainer(model.predict, data)
+            # explainer = shap.KernelExplainer(model.predict, data)
         else:
             data = self.X.copy()
             explainer = shap.Explainer(model)

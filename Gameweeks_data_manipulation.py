@@ -16,14 +16,20 @@ def split_gameweek_data(gw, season, is_last):
             break
 
     if season == '17_18' or season == '18_19':
-        gw_df = gw_df.drop(['id', 'round', 'kickoff_time', 'kickoff_time_formatted', 'element', 'was_home', 'fixture', 'tranfers_in', 'transfers_out', 'transfers_balance', 'team_a_score','team_h_score', 'opponent_team', 'ea_index', 'loaned_in', 'loaned_out'],
-                           axis=1)
+        gw_df = gw_df.drop(
+            ['name','id', 'round', 'kickoff_time', 'kickoff_time_formatted', 'element', 'was_home', 'fixture', 'transfers_in',
+             'transfers_out', 'transfers_balance', 'team_a_score', 'team_h_score', 'opponent_team', 'ea_index',
+             'loaned_in', 'loaned_out'],
+            axis=1)
     elif season == '19_20':
-        gw_df = gw_df.drop(['round', 'kickoff_time', 'element', 'was_home', 'fixture','tranfers_in', 'transfers_out', 'transfers_balance', 'team_a_score','team_h_score', 'opponent_team', 'ea_index', 'loaned_in', 'loaned_out'],
+        gw_df = gw_df.drop(['name', 'round', 'kickoff_time', 'element', 'was_home', 'fixture', 'transfers_in', 'transfers_out',
+                            'transfers_balance', 'team_a_score', 'team_h_score', 'opponent_team'],
                            axis=1)
     elif season == '20_21' or season == '21_22':
-        gw_df = gw_df.drop(['round', 'kickoff_time', 'element', 'was_home', 'fixture', 'team', 'position', 'xP','tranfers_in', 'transfers_out', 'transfers_balance', 'team_a_score','team_h_score', 'opponent_team', 'ea_index', 'loaned_in', 'loaned_out'],
-                           axis=1)
+        gw_df = gw_df.drop(
+            ['round', 'kickoff_time', 'element', 'was_home', 'fixture', 'team', 'position', 'xP', 'transfers_in',
+             'transfers_out', 'transfers_balance', 'team_a_score', 'team_h_score', 'opponent_team'],
+            axis=1)
 
     suffix = '_' + str(gw) + '_' + season
     gw_df = gw_df.add_suffix(suffix)
@@ -36,7 +42,6 @@ def split_gameweek_data(gw, season, is_last):
             ['first_name', 'second_name', 'team_code_' + season, 'element_type_' + season,
              'total_points_' + season]]
         if season != '20_21' and season != '21_22':
-            gw_df = gw_df.drop('name', axis=1)
             gw_df = gw_df.merge(players, left_on=['first_name', 'second_name'],
                                 right_on=['first_name', 'second_name'])
         else:
@@ -74,7 +79,7 @@ def add_gameweeks_data(first_gw, last_gw, season):
     if season == '20_21' or season == '21_22':
         df = df.drop(['name', 'first_name_x', 'second_name_x'], axis=1)
         df = df.rename(
-        columns={'first_name_y': 'first_name', 'second_name_y':'second_name'})
+            columns={'first_name_y': 'first_name', 'second_name_y': 'second_name'})
 
     fill_nan(df, last_gw, season)
 

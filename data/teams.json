@@ -710,6 +710,28 @@
 "strength_defence_home": 1080,
 "strength_defence_away": 1100,
 "pulse_id": 38
+},
+{
+"code": 49,
+"draw": 0,
+"form": null,
+"id": 26,
+"loss": 0,
+"name": "Sheffield Utd",
+"played": 0,
+"points": 0,
+"position": 0,
+"short_name": "SHE",
+"strength": 3,
+"team_division": null,
+"unavailable": false,
+"win": 0,
+"strength_overall_home": 1200,
+"strength_overall_away": 1170,
+"strength_attack_home": 1150,
+"strength_attack_away": 1160,
+"strength_defence_home": 1080,
+"strength_defence_away": 1100,
+"pulse_id": 38
 }
-
 ]}
