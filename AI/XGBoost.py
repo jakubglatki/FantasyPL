@@ -8,6 +8,7 @@ from AI.AIPrediction import AIPrediction
 
 class XGBoost(AIPrediction):
     model = 0
+    rmse=0
     def train_model(self):
         # params = {'max_depth': [3, 6, 10],
         #           'learning_rate': [0.01, 0.05, 0.1],
@@ -25,7 +26,7 @@ class XGBoost(AIPrediction):
         print("XGBoost")
         model = XGBRegressor(colsample_bytree=0.7, max_depth= 3, n_estimators= 500, learning_rate=0.1)# 'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 1000
         model.fit(self.X_train, self.y_train)
-        self.calculate_RMSE(model, False)
+        self.rmse = self.calculate_RMSE(model, False)
         self.make_plot('XGBoost_'+self.season, model, False)
         self.model=model
         all_data_predicted = model.predict(self.X)

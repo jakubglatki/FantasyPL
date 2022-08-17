@@ -16,7 +16,7 @@ from AI.TabNet import TabNet
 from AI.XGBoost import XGBoost
 
 if __name__ == '__main__':
-    #Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '20_21')
+    #Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '17_18')
     compare_classes.compare_models()
     # os.chdir(r'data/17_18')
     # allFiles = glob.glob("*.csv")  # match your csvs
