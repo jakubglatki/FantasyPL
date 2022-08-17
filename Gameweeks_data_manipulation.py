@@ -106,3 +106,4 @@ def fill_nan(df, gw, season):
         df[column] = df.groupby(['element_type_' + season])[column].transform(
             lambda x: x.fillna(x.min()))
     df.to_csv('data/' + season + '/players_gws.csv', index=False)
+

@@ -70,6 +70,7 @@ class AIPrediction:
         # print("RMSE_Test: " + str(math.sqrt(mse_test)))
         # print("RMSE_Train: " + str(math.sqrt(mse_train)))
         print("RMSE: " + str(math.sqrt(mse)))
+        return math.sqrt(mse)
 
     def choose_team_with_predicted_points(self, all_data_predicted):
         data_with_predicted_values = self.X.copy()
@@ -80,7 +81,7 @@ class AIPrediction:
                                                                                            self.season)
         most_points, cheapest_players, value_players = utilities.get_specific_data_frames(players_predicted_df,
                                                                                           self.season)
-        basic_method_self_made.choose_team(most_points, cheapest_players, value_players, self.season)
+        return basic_method_self_made.choose_team(most_points, cheapest_players, value_players, self.season)
 
     def make_plot(self, plot_name, model, masker):
         if masker:

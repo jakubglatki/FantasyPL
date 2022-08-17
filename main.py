@@ -4,6 +4,7 @@ import glob
 import os
 
 import Gameweeks_data_manipulation
+import compare_classes
 import utilities
 
 from AI.AIPrediction import AIPrediction
@@ -15,8 +16,8 @@ from AI.TabNet import TabNet
 from AI.XGBoost import XGBoost
 
 if __name__ == '__main__':
-    # Gameweeks_data_manipulation.add_gameweeks_data(1, 15, '19_20')
-
+    #Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '20_21')
+    compare_classes.compare_models()
     # os.chdir(r'data/17_18')
     # allFiles = glob.glob("*.csv")  # match your csvs
     # for file in allFiles:
@@ -67,9 +68,9 @@ if __name__ == '__main__':
     # predicted_points = xgboost.train_model()
     # xgboost.choose_team_with_predicted_points(predicted_points)
 
-    tree = DecisionTree('19_20')
-    predicted_points = tree.train_model()
-    tree.choose_team_with_predicted_points(predicted_points)
+    # tree = DecisionTree('19_20')
+    # predicted_points = tree.train_model()
+    # tree.choose_team_with_predicted_points(predicted_points)
     #
     # randomForest = RandomForest('19_20')
     # predicted_points = randomForest.train_model()

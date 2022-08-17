@@ -89,3 +89,4 @@ def choose_team(most_points,
     print('MID: ' + str(mid_squad))
     print('FWD: ' + str(fwd_squad))
     print('\n\n\n\n\n')
+    return total_points

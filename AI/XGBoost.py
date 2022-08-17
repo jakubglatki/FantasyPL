@@ -7,7 +7,7 @@ from AI.AIPrediction import AIPrediction
 
 
 class XGBoost(AIPrediction):
-
+    model = 0
     def train_model(self):
         # params = {'max_depth': [3, 6, 10],
         #           'learning_rate': [0.01, 0.05, 0.1],
@@ -27,6 +27,7 @@ class XGBoost(AIPrediction):
         model.fit(self.X_train, self.y_train)
         self.calculate_RMSE(model, False)
         self.make_plot('XGBoost_'+self.season, model, False)
+        self.model=model
         all_data_predicted = model.predict(self.X)
         # shap.plots.waterfall(shap_values[0])
         return all_data_predicted
