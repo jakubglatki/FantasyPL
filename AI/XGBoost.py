@@ -27,7 +27,7 @@ class XGBoost(AIPrediction):
         model = XGBRegressor(colsample_bytree=0.7, max_depth= 3, n_estimators= 500, learning_rate=0.1)# 'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 1000
         model.fit(self.X_train, self.y_train)
         self.rmse = self.calculate_RMSE(model, False)
-        self.make_plot('XGBoost_'+self.season, model, False)
+        #self.make_plot('XGBoost_'+self.season, model, False)
         self.model=model
         all_data_predicted = model.predict(self.X)
         # shap.plots.waterfall(shap_values[0])
