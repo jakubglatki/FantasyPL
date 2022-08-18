@@ -90,3 +90,11 @@ if __name__ == '__main__':
     tab_net = TabNet('20_21')
     predicted_points = tab_net.train_model()
     tab_net.choose_team_with_predicted_points(predicted_points)
+
+text = "As visible in the Figure 5.3, models are varying stongly with their performence, in both metrics- RMSE and the number of points. There are some situations with the RMSE being low, "
++ "but the total number of points being relatively low as well. In most cases it is caused by correctly predicting most of the players, who did not get a lot of points, but failing at "
++ "predicting the positive outliers, the players with most points. Since the decision support system is supposed to help with choosing the best performing players,"
++ ", and not the average ones, the total number of points is a parameter which is more important in the decision making process, about choosing the best model."
++ "Another important metric in choosing the best model is the time when the model was making good predictions. The predictions made in the last two seasons,"
++ "when the models had more data to learn from are more important than the predictions from the beginning, with limited informations. After taking all that "
++ "into consideration, the MODEL was chosen for the detailed case study, showned in the next section."
