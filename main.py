@@ -16,8 +16,11 @@ from AI.TabNet import TabNet
 from AI.XGBoost import XGBoost
 
 if __name__ == '__main__':
-    #Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '17_18')
-    compare_classes.compare_models()
+
+    # seasons = ['17_18', '18_19', '19_20', '20_21']
+    # for season in seasons:
+    #      Gameweeks_data_manipulation.add_gameweeks_data(1, 1, season)
+    #compare_classes.compare_models()
     # os.chdir(r'data/17_18')
     # allFiles = glob.glob("*.csv")  # match your csvs
     # for file in allFiles:
@@ -68,22 +71,22 @@ if __name__ == '__main__':
     # predicted_points = xgboost.train_model()
     # xgboost.choose_team_with_predicted_points(predicted_points)
 
-    # tree = DecisionTree('19_20')
+    # tree = DecisionTree('20_21')
     # predicted_points = tree.train_model()
     # tree.choose_team_with_predicted_points(predicted_points)
-    #
-    # randomForest = RandomForest('19_20')
+
+    # randomForest = RandomForest('20_21')
     # predicted_points = randomForest.train_model()
     # randomForest.choose_team_with_predicted_points(predicted_points)
 
-    # knn = KNN('19_20')
+    # knn = KNN('20_21')
     # predicted_points = knn.train_model()
     # knn.choose_team_with_predicted_points(predicted_points)
 
-# linear_regression = LinearRegressionAI('17_18')
-# predicted_points = linear_regression.train_model()
-# linear_regression.choose_team_with_predicted_points(predicted_points)
+    # linear_regression = LinearRegressionAI('20_21')
+    # predicted_points = linear_regression.train_model()
+    # linear_regression.choose_team_with_predicted_points(predicted_points)
 #
-# tab_net = TabNet('17_18')
-# predicted_points = tab_net.train_model()
-# tab_net.choose_team_with_predicted_points(predicted_points)
+    tab_net = TabNet('20_21')
+    predicted_points = tab_net.train_model()
+    tab_net.choose_team_with_predicted_points(predicted_points)

@@ -1,5 +1,8 @@
+import math
+
 from numpy import reshape, asarray
 from pytorch_tabnet.tab_model import TabNetRegressor
+from sklearn.metrics import mean_squared_error
 
 from AI.AIPrediction import AIPrediction
 
@@ -17,4 +20,8 @@ class TabNet(AIPrediction):
         #self.make_plot('TabNet_'+self.season, model)
         all_data_predicted = model.predict(X_normalized)
         all_data_predicted = all_data_predicted.flatten()
+        y_pred = model.predict(X_normalized)
+        mse = mean_squared_error(self.y, y_pred)
+        print("RMSE: " + str(math.sqrt(mse)))
+
         return all_data_predicted
