@@ -77,7 +77,7 @@ def choose_team(most_points,
             fwd_squad.append(row.player_name)
         for idx, rowPlayer in players.iterrows():
             if rowPlayer['second_name'] in row.player_name:
-                if rowPlayer['now_cost_'+season] >= 45:
+                if rowPlayer['now_cost_'+season] >= 40:
                     total_points += rowPlayer['total_points_' + season]
 
     print("Remaining Budget: " + str((budget / 10)) + "M")

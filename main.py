@@ -75,7 +75,8 @@ if __name__ == '__main__':
     #                                                                                   '20_21')
     # basic_method_self_made.choose_team(most_points, cheapest_players, value_players, '20_21')
     # #ai = AIPrediction()
-
+    #
+    #Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '21_22')
     xgboost = XGBoost('21_22')
     predicted_points = xgboost.train_model()
     xgboost.choose_team_with_predicted_points(predicted_points)
