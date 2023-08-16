@@ -41,7 +41,7 @@ def split_gameweek_data(gw, season, is_last):
         players = players[
             ['first_name', 'second_name', 'team_code_' + season, 'element_type_' + season,
              'total_points_' + season]]
-        if season != '20_21' and season != '21_22':
+        if season != '20_21' and season != '21_22' and season != '22_23' and season != '23_24':
             gw_df = gw_df.merge(players, left_on=['first_name', 'second_name'],
                                 right_on=['first_name', 'second_name'])
         else:
@@ -65,7 +65,7 @@ def add_gameweeks_data(first_gw, last_gw, season):
             gw_df = split_gameweek_data(gw, season, True)
         else:
             gw_df = split_gameweek_data(gw, season, False)
-        if season != '20_21' and season != '21_22':
+        if season != '20_21' and season != '21_22' and season != '22_23' and season != '23_24':
             df = df.merge(gw_df, left_on=['first_name', 'second_name'],
                           right_on=['first_name', 'second_name'],
                           how='right')

@@ -35,14 +35,14 @@ if __name__ == '__main__':
     # df = df.drop_duplicates(['first_name', 'second_name'], keep='last')  # read from row 34 onwards.
     # df.to_csv(r'data/17_18/players_gws.csv', index=False)
     # utilities.check_all_algorithms('21_22')
-    # players = pd.read_csv('data/players_20_21.csv')
-    # players2 = pd.read_csv('data/players_21_22.csv')
+    # players = pd.read_csv('data/players_22_23.csv' , encoding="ISO-8859-1")
+    # players2 = pd.read_csv('data/players_23_24.csv', encoding="ISO-8859-1")
     # players = players.merge(players2, left_on=['first_name', 'second_name'],
-    #                         right_on=['first_name_21_22', 'second_name_21_22'],
+    #                         right_on=['first_name_23_24', 'second_name_23_24'],
     #                         how='right')
     # players = players.drop(labels=['first_name', 'second_name'], axis=1)
-    # players = players.rename(columns={'first_name_21_22': 'first_name', 'second_name_21_22': 'second_name'})
-    # players.to_csv('data/players_21_22.csv', index=False)
+    # players = players.rename(columns={'first_name_23_24': 'first_name', 'second_name_23_24': 'second_name'})
+    # players.to_csv('data/players_23_24.csv', index=False)
     # players = pd.read_csv('data/players_21_22.csv')
     # players = pd.read_csv('data/players_16_17.csv')
     # players2 = pd.read_csv('data/gw1_16_17.csv')
@@ -52,8 +52,8 @@ if __name__ == '__main__':
     # players = players.drop(labels=['first_name', 'second_name'], axis=1)
     # players = players.rename(columns={'first_name_21_22': 'first_name', 'second_name_21_22': 'second_name'})
     # players.to_csv('data/players_21_22.csv', index=False)
-    # players = pd.read_csv('data/players_21_22.csv')
-
+    # players = pd.read_csv('data/players_23_24.csv')
+    #
     # wanted_features = utilities.wanted_features
     # column_list = []
     # for feature in wanted_features:
@@ -61,8 +61,8 @@ if __name__ == '__main__':
     #         if feature in column:
     #             column_list.append(column)
     # players = players[column_list]
-    # players = players.add_suffix('_21_22')
-    # players.to_csv('data/players_21_22.csv', index=False)
+    # players = players.add_suffix('_23_24')
+    # players.to_csv('data/players_23_24.csv', index=False)
     # players= pd.read_csv('data/21_22/players_gws.csv', encoding="ISO-8859-1")
     # team_dictionary, team_limit_dictionary = utilities.map_teams()
     # position_dictionary = utilities.map_positions()
@@ -76,8 +76,8 @@ if __name__ == '__main__':
     # basic_method_self_made.choose_team(most_points, cheapest_players, value_players, '20_21')
     # #ai = AIPrediction()
     #
-    #Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '21_22')
-    xgboost = XGBoost('21_22')
+#    Gameweeks_data_manipulation.add_gameweeks_data(1, 1, '22_23')
+    xgboost = XGBoost('23_24')
     predicted_points = xgboost.train_model()
     xgboost.choose_team_with_predicted_points(predicted_points)
 
